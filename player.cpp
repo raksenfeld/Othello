@@ -47,20 +47,26 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
      */
      
     // Processes opponent move
-    this->gameBoard->doMove(opponentsMove, this->opponentSide);
-    
-    // Check if time is up
-    if(msLeft <= -1)
+    if(opponentsMove != nullptr)
     {
-        return nullptr;
+        std::cerr<<" || "<<std::endl;
+
+        this->gameBoard->doMove(opponentsMove, this->opponentSide);
     }
+    std::cerr<<"SSSSS"<<std::endl;
+
+    if(msLeft == 0)
+
+
+    std::cerr<<"FUUUUU"<<std::endl;
+
     // Check for legal moves
     for(int i = 0; i < 8; i++)
     {
         for(int j = 0; j < 8; j++)
         {
             Move temp(i, j);
-            //std::cerr<<i<<" || "<<j<<std::endl;
+            std::cerr<<i<<" || "<<j<<std::endl;
             if(this->gameBoard->checkMove(&temp, this->ourSide))
             {
 				this->gameBoard->doMove(&temp, this->ourSide);
