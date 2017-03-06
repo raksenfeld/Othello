@@ -70,12 +70,14 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
         {
             Move *temp = new Move(i, j);
             std::cerr<<i<<" || "<<j<<std::endl;
+
             if(this->gameBoard->checkMove(temp, this->ourSide))
                {
                    this->gameBoard->doMove(temp, this->ourSide);
                    std::cerr<<"FUUUUU"<<std::endl;
                    return temp;
                }
+
         }
     }
     return nullptr;
