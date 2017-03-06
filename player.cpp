@@ -56,6 +56,9 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     std::cerr<<"SSSSS"<<std::endl;
 
     if(msLeft == 0)
+    {
+        return nullptr;
+    }
 
 
     std::cerr<<"FUUUUU"<<std::endl;
@@ -65,12 +68,13 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     {
         for(int j = 0; j < 8; j++)
         {
-            Move temp(i, j);
+            Move *temp = new Move(i, j);
             std::cerr<<i<<" || "<<j<<std::endl;
-            if(this->gameBoard->checkMove(&temp, this->ourSide))
+            if(this->gameBoard->checkMove(temp, this->ourSide))
                {
-                   this->gameBoard->doMove(&temp, this->ourSide);
-                   return &temp;
+                   this->gameBoard->doMove(temp, this->ourSide);
+                   std::cerr<<"FUUUUU"<<std::endl;
+                   return temp;
                }
         }
     }
