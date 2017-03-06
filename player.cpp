@@ -57,7 +57,7 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     // Check for legal moves
     for(int i = 0; i < 8; i++)
     {
-        for(int j = 0; j<8; j++)
+        for(int j = 0; j < 8; j++)
         {
             Move temp(i, j);
             //std::cerr<<i<<" || "<<j<<std::endl;
