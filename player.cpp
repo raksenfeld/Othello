@@ -1,4 +1,5 @@
 #include "player.hpp"
+#include<iostream>
 
 /**
  * Constructor for the player; initialize everything here. The side your AI is
@@ -56,9 +57,10 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     // Check for legal moves
     for(int i = 0; i < 8; i++)
     {
-        for(int j = 0; j<0; j++)
+        for(int j = 0; j<8; j++)
         {
-            Move temp = Move(i, j);
+            Move temp(i, j);
+            //std::cerr<<i<<" || "<<j<<std::endl;
             if(this->gameBoard->checkMove(&temp, this->ourSide))
                {
                    this->gameBoard->doMove(&temp, this->ourSide);
@@ -66,8 +68,7 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
                }
         }
     }
-    
-    //return nullptr;
+    return nullptr;
 }
 
 
