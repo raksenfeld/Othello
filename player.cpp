@@ -8,12 +8,16 @@
 Player::Player(Side side) {
     // Will be set to true in test_minimax.cpp.
     testingMinimax = false;
-
-    /*
-     * TODO: Do any initialization you need to do here (setting up the board,
-     * precalculating things, etc.) However, remember that you will only have
-     * 30 seconds.
-     */
+    gameBoard = new Board();
+    ourSide = side;
+    if(ourSide == WHITE)
+    {
+        opponentSide = BLACK;
+    }
+    else
+    {
+        opponentSide = WHITE;
+    }
 }
 
 /***
@@ -40,5 +44,30 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
      * TODO: Implement how moves your AI should play here. You should first
      * process the opponent's opponents move before calculating your own move
      */
-    return nullptr;
+    // Processes opponent move
+    
+    this->gameBoard->doMove(opponentsMove, this->opponentSide);
+    if(msLeft <= -1)
+    {
+        return nullptr;
+    }
+    // Check for legal moves
+    for(int i = 0; i<8; i++)
+    {
+        for(int j = 0; j<0; j++)
+        {
+            Move temp = Move(i, j);
+            if(this->gameBoard->checkMove(&temp, this->ourSide))
+               {
+                   this->gameBoard->doMove(&temp, this->ourSide);
+                   return &temp;
+               }
+        }
+    }
+    
+    //return nullptr;
 }
+
+
+
+
