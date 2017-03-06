@@ -23,7 +23,7 @@ Player::Player(Side side) {
 
 /***
  * Destructor for the player.
- */
+ */ 
 Player::~Player() {
 }
 
@@ -45,8 +45,9 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
      * TODO: Implement how moves your AI should play here. You should first
      * process the opponent's opponents move before calculating your own move
      */
+     
     // Processes opponent move
-       if(opponentsMove != nullptr)
+    if(opponentsMove != nullptr)
     {
         std::cerr<<" || "<<std::endl;
 
@@ -55,15 +56,14 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     std::cerr<<"SSSSS"<<std::endl;
 
     if(msLeft == 0)
-    {
-        return nullptr;
-    }
+
+
     std::cerr<<"FUUUUU"<<std::endl;
 
     // Check for legal moves
-    for(int i = 0; i<8; i++)
+    for(int i = 0; i < 8; i++)
     {
-        for(int j = 0; j<8; j++)
+        for(int j = 0; j < 8; j++)
         {
             Move temp(i, j);
             std::cerr<<i<<" || "<<j<<std::endl;
