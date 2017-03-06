@@ -50,13 +50,14 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     if(opponentsMove != nullptr)
     {
         std::cerr<<" || "<<std::endl;
-
         this->gameBoard->doMove(opponentsMove, this->opponentSide);
     }
     std::cerr<<"SSSSS"<<std::endl;
 
     if(msLeft == 0)
-
+    {
+		return nullptr;
+	}
 
     std::cerr<<"FUUUUU"<<std::endl;
 
