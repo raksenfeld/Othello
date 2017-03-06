@@ -7,6 +7,7 @@
 using namespace std;
 
 class Player {
+    
 
 public:
     Player(Side side);
@@ -16,6 +17,9 @@ public:
 
     // Flag to tell if the player is running within the test_minimax context
     bool testingMinimax;
+    Side ourSide;
+    Side opponentSide;
+    Board *gameBoard;
 };
 
 #endif
