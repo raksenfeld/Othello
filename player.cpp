@@ -44,15 +44,17 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
      * TODO: Implement how moves your AI should play here. You should first
      * process the opponent's opponents move before calculating your own move
      */
+     
     // Processes opponent move
-    
     this->gameBoard->doMove(opponentsMove, this->opponentSide);
+    
+    // Check if time is up
     if(msLeft <= -1)
     {
         return nullptr;
     }
     // Check for legal moves
-    for(int i = 0; i<8; i++)
+    for(int i = 0; i < 8; i++)
     {
         for(int j = 0; j<0; j++)
         {
