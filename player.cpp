@@ -67,7 +67,6 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
         return nullptr;
     }
 
-    // NEED MS TIME
     // THIS IS THE CORNER
     for(int i = 0; i < 8; i+=7)
     {
@@ -85,9 +84,11 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
                 this->gameBoard->doMove(temp, this->ourSide);
                 return temp;
             }
+            delete temp;
         }
     }
     
+    // This is for the edges
     for(int i = 0; i < 8; i+=7)
     {
         for(int j = 2; j < 6; j++)
@@ -104,6 +105,7 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
                 this->gameBoard->doMove(temp, this->ourSide);
                 return temp;
             }
+            delete temp;
         }
     }
     
@@ -123,9 +125,11 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
                 this->gameBoard->doMove(temp, this->ourSide);
                 return temp;
             }
+            delete temp;
         }
     }
     
+    // This is for the middle
     for(int i = 1; i < 7; i++)
     {
         for(int j = 1; j < 7; j++)
@@ -144,10 +148,12 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
                     this->gameBoard->doMove(temp, this->ourSide);
                     return temp;
                 }
+                delete temp;
             }
         }
     }
     
+    // This is for the catty corners
     for(int i = 1; i < 7; i+=5)
     {
         for(int j = 0; j < 8; j+=7)
@@ -164,8 +170,10 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
                 this->gameBoard->doMove(temp, this->ourSide);
                 return temp;
             }
+            delete temp;
         }
     }
+    
     
     for(int i = 1; i < 7; i+=5)
     {
@@ -183,9 +191,11 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
                 this->gameBoard->doMove(temp, this->ourSide);
                 return temp;
             }
+            delete temp;
         }
     }
     
+    // This is for the inner corners
     for(int i = 1; i < 7; i+=5)
     {
         for(int j = 1; j < 7; j+=5)
@@ -202,13 +212,12 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
                 this->gameBoard->doMove(temp, this->ourSide);
                 return temp;
             }
+            delete temp;
         }
     }
     return nullptr;
     
-
     
-    //
     /*
     // Check for legal moves
     for(int i = 0; i < 8; i++)
