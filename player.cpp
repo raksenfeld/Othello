@@ -397,7 +397,6 @@ int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
         better = -999999;
     }
     
-    
     for(int i = 0; i<8; i++)
     {
         for(int j = 0; j<8; j++)
@@ -417,7 +416,6 @@ int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
                 }
                 else
                 {
-                    
                     better = max(better, tempIntDFS);
                 }
                 
