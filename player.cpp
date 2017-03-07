@@ -315,8 +315,7 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
     int curMaxScore = -99999999;
     Board *tempbd = this->gameBoard->copy();
     
-
-    
+    // Initialize score array with heuristic values for each spot
     int scores[8][8]  = {
         {9999999, -50, 100, 100, 100, 100, -50, 9999999},
         {-50, -9999999, 0, 0, 0, 0, -9999999, -50},
@@ -326,7 +325,8 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
         {100, 0, 0, 0, 0, 0, 0, 100},
         {-50, -9999999, 0, 0, 0, 0, -9999999, -50},
         {9999999, -50, 100, 100, 100, 100, -50, 9999999}};
-
+    
+    // Update score array based on current state of game
     for(int i = 0; i<8; i++)
     {
         for(int j = 0; j<8; j++)
@@ -353,6 +353,7 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
             {
                 scores[i][j] = 0;
             }
+            delete temp;
             
         }
     }
@@ -366,13 +367,21 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
         std::cerr<<std::endl;
     }
     
+    // Play the best move based on score array
     if(mX >= 0 && mY >= 0)
     {
-        
         Move *temp = new Move(mX, mY);
-
-        this->gameBoard->doMove(temp, this->ourSide);
-        return temp;
+        time(&lastT);
+		int diffT=difftime(lastT, startT);
+		if(diffT >= msLeft)
+		{
+			return nullptr;
+		}
+		else if
+		{
+			this->gameBoard->doMove(temp, this->ourSide);
+			return temp;
+		}
     }
         
     return nullptr;
