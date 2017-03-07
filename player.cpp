@@ -85,7 +85,7 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
  * The move returned must be legal; if there are no valid moves for your side,
  * return nullptr.
  */
-Move *doRandomMove(Move *opponentsMove, int msLeft) {
+Move *Player::doRandomMove(Move *opponentsMove, int msLeft) {
 	// Start timer
     time_t startT;
     time_t lastT;
@@ -132,7 +132,7 @@ Move *doRandomMove(Move *opponentsMove, int msLeft) {
  * The move returned must be legal; if there are no valid moves for your side,
  * return nullptr.
  */
-Move *doHeurMove(Move *opponentsMove, int msLeft) {
+Move *Player::doHeurMove(Move *opponentsMove, int msLeft) {
 	// Start timer
     time_t startT;
     time_t lastT;
@@ -303,7 +303,7 @@ Move *doHeurMove(Move *opponentsMove, int msLeft) {
  * The move returned must be legal; if there are no valid moves for your side,
  * return nullptr.
  */
-Move *doMinimaxMove(Move *opponentsMove, int msLeft) {
+Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
 	// Start timer
     time_t startT;
     time_t lastT;
