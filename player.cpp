@@ -67,7 +67,68 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
         return nullptr;
     }
 
-    // THIS IS THE CORNER
+    return doHeurMove(opponentsMove, time(&lastT));
+    
+}
+
+
+/***
+ * Compute the next random move given the opponent's last move. Your AI is
+ * expected to keep track of the board on its own. If this is the first move,
+ * or if the opponent passed on the last move, then opponentsMove will be
+ * nullptr.
+ *
+ * msLeft represents the time your AI has left for the total game, in
+ * milliseconds. doMove() must take no longer than msLeft, or your AI will
+ * be disqualified! An msLeft value of -1 indicates no time limit.
+ *
+ * The move returned must be legal; if there are no valid moves for your side,
+ * return nullptr.
+ */
+Move *doRandomMove(Move *opponentsMove, int msLeft) {
+	// Check for legal moves
+    for(int i = 0; i < 8; i++)
+    {
+        for(int j = 0; j < 8; j++)
+        {
+            Move *temp = new Move(i, j);
+            if(this->gameBoard->checkMove(temp, this->ourSide))
+               {
+                   //Current time, which is higher than startT
+                   time(&lastT);
+                   int diffT=difftime(lastT, startT);
+                   this->gameBoard->doMove(temp, this->ourSide);
+                   if(diffT >= msLeft)
+                   {
+                       return nullptr;
+                   }
+                   else
+                   {
+                        return temp;
+                   }
+               }
+
+        }
+    }
+    return nullptr;
+}
+
+
+/***
+ * Compute the next move given the opponent's last move using heuristics.
+ * Your AI is expected to keep track of the board on its own.
+ * If this is the first move, or if the opponent passed on the last 
+ * move, then opponentsMove will be nullptr.
+ *
+ * msLeft represents the time your AI has left for the total game, in
+ * milliseconds. doMove() must take no longer than msLeft, or your AI will
+ * be disqualified! An msLeft value of -1 indicates no time limit.
+ *
+ * The move returned must be legal; if there are no valid moves for your side,
+ * return nullptr.
+ */
+Move *doHeurMove(Move *opponentsMove, int msLeft) {
+	// THIS IS THE CORNER
     for(int i = 0; i < 8; i+=7)
     {
         for(int j = 0; j < 8; j+=7)
@@ -216,38 +277,24 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
         }
     }
     return nullptr;
-    
-    
-    /*
-    // Check for legal moves
-    for(int i = 0; i < 8; i++)
-    {
-        for(int j = 0; j < 8; j++)
-        {
-            Move *temp = new Move(i, j);
-            if(this->gameBoard->checkMove(temp, this->ourSide))
-               {
-                   //Current time, which is higher than startT
-                   time(&lastT);
-                   int diffT=difftime(lastT, startT);
-                   this->gameBoard->doMove(temp, this->ourSide);
-                   if(diffT >= msLeft)
-                   {
-                       return nullptr;
-                   }
-                   else
-                   {
-                        return temp;
-                   }
-               }
-
-        }
-    }
-    return nullptr;
-    */
 }
-     
 
 
+/***
+ * Compute the next move given the opponent's last move using minimax
+ * algorithm. Your AI is expected to keep track of the board on its own.
+ * If this is the first move, or if the opponent passed on the last 
+ * move, then opponentsMove will be nullptr.
+ *
+ * msLeft represents the time your AI has left for the total game, in
+ * milliseconds. doMove() must take no longer than msLeft, or your AI will
+ * be disqualified! An msLeft value of -1 indicates no time limit.
+ *
+ * The move returned must be legal; if there are no valid moves for your side,
+ * return nullptr.
+ */
+Move *doMinimaxMove(Move *opponentsMove, int msLeft) {
+	// DO STUFF
+}
 
 
