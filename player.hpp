@@ -17,6 +17,7 @@ public:
     Move *doRandomMove(Move *opponentsMove, int msLeft);
     Move *doHeurMove(Move *opponentsMove, int msLeft);
     Move *doMinimaxMove(Move *opponentsMove, int msLeft);
+    int dfs(Board tpBoard, Side curside, int depth);
 
     // Flag to tell if the player is running within the test_minimax context
     bool testingMinimax;
