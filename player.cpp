@@ -309,7 +309,7 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
     time_t lastT;
     time(&startT);
     
-    tempbd = gameBoard.copy();
+    Board *tempbd = this->gameBoard->copy();
     
     return nullptr;
 }
