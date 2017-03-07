@@ -35,7 +35,6 @@ int main(int argc, char *argv[]) {
     // Get player's move and check if it's right.
     
     player->gameBoard->setBoard(boardData);
-
     
     Move *move = player->doMove(nullptr, -1);
 
