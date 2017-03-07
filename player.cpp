@@ -86,6 +86,11 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
  * return nullptr.
  */
 Move *doRandomMove(Move *opponentsMove, int msLeft) {
+	// Start timer
+    time_t startT;
+    time_t lastT;
+    time(&startT);
+    
 	// Check for legal moves
     for(int i = 0; i < 8; i++)
     {
@@ -128,7 +133,12 @@ Move *doRandomMove(Move *opponentsMove, int msLeft) {
  * return nullptr.
  */
 Move *doHeurMove(Move *opponentsMove, int msLeft) {
-	// THIS IS THE CORNER
+	// Start timer
+    time_t startT;
+    time_t lastT;
+    time(&startT);
+    
+    // THIS IS THE CORNER
     for(int i = 0; i < 8; i+=7)
     {
         for(int j = 0; j < 8; j+=7)
@@ -294,7 +304,12 @@ Move *doHeurMove(Move *opponentsMove, int msLeft) {
  * return nullptr.
  */
 Move *doMinimaxMove(Move *opponentsMove, int msLeft) {
-	// DO STUFF
+	// Start timer
+    time_t startT;
+    time_t lastT;
+    time(&startT);
+    
+    return nullptr;
 }
 
 
