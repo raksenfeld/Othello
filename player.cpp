@@ -43,27 +43,24 @@ Player::~Player() {
  * return nullptr.
  */
 Move *Player::doMove(Move *opponentsMove, int msLeft) {
-    /*
-     * TODO: Implement how moves your AI should play here. You should first
-     * process the opponent's opponents move before calculating your own move
-     */
-     
-    // Processes opponent move
+    // Start timer
     time_t startT;
     time_t lastT;
     time(&startT);
+    
+    // Processes opponent move
     if(opponentsMove != nullptr)
     {
-        std::cerr<<" || "<<std::endl;
         this->gameBoard->doMove(opponentsMove, this->opponentSide);
     }
-    std::cerr<<"FGGGG"<< msLeft<<std::endl;
     
-    if(msLeft == 0)
+    // Check if time is left
+    time(&lastT);
+    int diffT=difftime(lastT, startT);
+    if(diffT >= msLeft)
     {
         return nullptr;
     }
-    std::cerr<<"T"<<std::endl;
 
     // NEED MS TIME
     // THIS IS THE CORNER
@@ -72,40 +69,58 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
         for(int j = 0; j < 8; j+=7)
         {
             Move *temp = new Move(i, j);
-            if(this->gameBoard->checkMove(temp, this->ourSide))
+            time(&lastT);
+            int diffT=difftime(lastT, startT);
+            if(diffT >= msLeft)
+            {
+				return nullptr;
+            }
+            else if(this->gameBoard->checkMove(temp, this->ourSide))
             {
                 this->gameBoard->doMove(temp, this->ourSide);
                 return temp;
             }
         }
     }
-    std::cerr<<"FRST"<<std::endl;
+    
     for(int i = 0; i < 8; i+=7)
     {
         for(int j = 2; j < 6; j++)
         {
             Move *temp = new Move(i, j);
-            if(this->gameBoard->checkMove(temp, this->ourSide))
+            time(&lastT);
+            int diffT=difftime(lastT, startT);
+            if(diffT >= msLeft)
+            {
+				return nullptr;
+            }
+            else if(this->gameBoard->checkMove(temp, this->ourSide))
             {
                 this->gameBoard->doMove(temp, this->ourSide);
                 return temp;
             }
         }
     }
-      std::cerr<<"SECOND"<<std::endl;
+    
     for(int i = 0; i < 8; i+=7)
     {
         for(int j = 2; j < 6; j++)
         {
             Move *temp = new Move(j, i);
-            if(this->gameBoard->checkMove(temp, this->ourSide))
+            time(&lastT);
+            int diffT=difftime(lastT, startT);
+            if(diffT >= msLeft)
+            {
+				return nullptr;
+            }
+            else if(this->gameBoard->checkMove(temp, this->ourSide))
             {
                 this->gameBoard->doMove(temp, this->ourSide);
                 return temp;
             }
         }
     }
-      std::cerr<<"THRID"<<std::endl;
+    
     for(int i = 1; i < 7; i++)
     {
         for(int j = 1; j < 7; j++)
@@ -113,8 +128,13 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
             if(((i == 1 && j == 1) || (i == 1 && j == 6) || (i == 6 && j == 1) || (i == 6 && j == 6))==false)
             {
                 Move *temp = new Move(i, j);
-                std::cerr<<i<<" || "<<j<<std::endl;
-                if(this->gameBoard->checkMove(temp, this->ourSide))
+                time(&lastT);
+				int diffT=difftime(lastT, startT);
+				if(diffT >= msLeft)
+				{
+					return nullptr;
+				}
+                else if(this->gameBoard->checkMove(temp, this->ourSide))
                 {
                     this->gameBoard->doMove(temp, this->ourSide);
                     return temp;
@@ -122,39 +142,57 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
             }
         }
     }
-      std::cerr<<"EWWWW"<<std::endl;
+    
     for(int i = 1; i < 7; i+=5)
     {
         for(int j = 0; j < 8; j+=7)
         {
             Move *temp = new Move(j, i);
-            if(this->gameBoard->checkMove(temp, this->ourSide))
+            time(&lastT);
+            int diffT=difftime(lastT, startT);
+            if(diffT >= msLeft)
+            {
+				return nullptr;
+            }
+            else if(this->gameBoard->checkMove(temp, this->ourSide))
             {
                 this->gameBoard->doMove(temp, this->ourSide);
                 return temp;
             }
         }
     }
-      std::cerr<<"EWW"<<std::endl;
+    
     for(int i = 1; i < 7; i+=5)
     {
         for(int j = 0; j < 8; j+=7)
         {
             Move *temp = new Move(i, j);
-            if(this->gameBoard->checkMove(temp, this->ourSide))
+            time(&lastT);
+            int diffT=difftime(lastT, startT);
+            if(diffT >= msLeft)
+            {
+				return nullptr;
+            }
+            else if(this->gameBoard->checkMove(temp, this->ourSide))
             {
                 this->gameBoard->doMove(temp, this->ourSide);
                 return temp;
             }
         }
     }
-     std::cerr<<"EWWWWWW"<<std::endl;
+    
     for(int i = 1; i < 7; i+=5)
     {
         for(int j = 1; j < 7; j+=5)
         {
             Move *temp = new Move(i, j);
-            if(this->gameBoard->checkMove(temp, this->ourSide))
+            time(&lastT);
+            int diffT=difftime(lastT, startT);
+            if(diffT >= msLeft)
+            {
+				return nullptr;
+            }
+            else if(this->gameBoard->checkMove(temp, this->ourSide))
             {
                 this->gameBoard->doMove(temp, this->ourSide);
                 return temp;
