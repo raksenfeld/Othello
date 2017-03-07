@@ -1,6 +1,8 @@
 #include "player.hpp"
 #include<iostream>
 
+//If it hits a corner, got there automatic
+
 /**
  * Constructor for the player; initialize everything here. The side your AI is
  * on (BLACK or WHITE) is passed in as "side". The constructor must finish
@@ -47,39 +49,152 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
      */
      
     // Processes opponent move
+    time_t startT;
+    time_t lastT;
+    time(&startT);
     if(opponentsMove != nullptr)
     {
         std::cerr<<" || "<<std::endl;
         this->gameBoard->doMove(opponentsMove, this->opponentSide);
     }
-    std::cerr<<"SSSSS"<<std::endl;
-
+    std::cerr<<"FGGGG"<< msLeft<<std::endl;
+    
     if(msLeft == 0)
     {
         return nullptr;
     }
+    std::cerr<<"T"<<std::endl;
 
-    std::cerr<<"FUUUUU"<<std::endl;
+    // NEED MS TIME
+    // THIS IS THE CORNER
+    for(int i = 0; i < 8; i+=7)
+    {
+        for(int j = 0; j < 8; j+=7)
+        {
+            Move *temp = new Move(i, j);
+            if(this->gameBoard->checkMove(temp, this->ourSide))
+            {
+                this->gameBoard->doMove(temp, this->ourSide);
+                return temp;
+            }
+        }
+    }
+    std::cerr<<"FRST"<<std::endl;
+    for(int i = 0; i < 8; i+=7)
+    {
+        for(int j = 2; j < 6; j++)
+        {
+            Move *temp = new Move(i, j);
+            if(this->gameBoard->checkMove(temp, this->ourSide))
+            {
+                this->gameBoard->doMove(temp, this->ourSide);
+                return temp;
+            }
+        }
+    }
+      std::cerr<<"SECOND"<<std::endl;
+    for(int i = 0; i < 8; i+=7)
+    {
+        for(int j = 2; j < 6; j++)
+        {
+            Move *temp = new Move(j, i);
+            if(this->gameBoard->checkMove(temp, this->ourSide))
+            {
+                this->gameBoard->doMove(temp, this->ourSide);
+                return temp;
+            }
+        }
+    }
+      std::cerr<<"THRID"<<std::endl;
+    for(int i = 1; i < 7; i++)
+    {
+        for(int j = 1; j < 7; j++)
+        {
+            if(((i == 1 && j == 1) || (i == 1 && j == 6) || (i == 6 && j == 1) || (i == 6 && j == 6))==false)
+            {
+                Move *temp = new Move(i, j);
+                std::cerr<<i<<" || "<<j<<std::endl;
+                if(this->gameBoard->checkMove(temp, this->ourSide))
+                {
+                    this->gameBoard->doMove(temp, this->ourSide);
+                    return temp;
+                }
+            }
+        }
+    }
+      std::cerr<<"EWWWW"<<std::endl;
+    for(int i = 1; i < 7; i+=5)
+    {
+        for(int j = 0; j < 8; j+=7)
+        {
+            Move *temp = new Move(j, i);
+            if(this->gameBoard->checkMove(temp, this->ourSide))
+            {
+                this->gameBoard->doMove(temp, this->ourSide);
+                return temp;
+            }
+        }
+    }
+      std::cerr<<"EWW"<<std::endl;
+    for(int i = 1; i < 7; i+=5)
+    {
+        for(int j = 0; j < 8; j+=7)
+        {
+            Move *temp = new Move(i, j);
+            if(this->gameBoard->checkMove(temp, this->ourSide))
+            {
+                this->gameBoard->doMove(temp, this->ourSide);
+                return temp;
+            }
+        }
+    }
+     std::cerr<<"EWWWWWW"<<std::endl;
+    for(int i = 1; i < 7; i+=5)
+    {
+        for(int j = 1; j < 7; j+=5)
+        {
+            Move *temp = new Move(i, j);
+            if(this->gameBoard->checkMove(temp, this->ourSide))
+            {
+                this->gameBoard->doMove(temp, this->ourSide);
+                return temp;
+            }
+        }
+    }
+    return nullptr;
+    
 
+    
+    //
+    /*
     // Check for legal moves
     for(int i = 0; i < 8; i++)
     {
         for(int j = 0; j < 8; j++)
         {
             Move *temp = new Move(i, j);
-            std::cerr<<i<<" || "<<j<<std::endl;
-
             if(this->gameBoard->checkMove(temp, this->ourSide))
                {
+                   //Current time, which is higher than startT
+                   time(&lastT);
+                   int diffT=difftime(lastT, startT);
                    this->gameBoard->doMove(temp, this->ourSide);
-                   std::cerr<<"FUUUUU"<<std::endl;
-                   return temp;
+                   if(diffT >= msLeft)
+                   {
+                       return nullptr;
+                   }
+                   else
+                   {
+                        return temp;
+                   }
                }
 
         }
     }
     return nullptr;
+    */
 }
+     
 
 
 
