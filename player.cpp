@@ -57,6 +57,11 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     // Check if time is left
     time(&lastT);
     int diffT=difftime(lastT, startT);
+    
+    if(msLeft == -1 )
+    {
+        msLeft = 999999999;
+    }
     if(diffT >= msLeft)
     {
         return nullptr;
