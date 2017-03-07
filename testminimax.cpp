@@ -33,7 +33,11 @@ int main(int argc, char *argv[]) {
      */
 
     // Get player's move and check if it's right.
-    Move *move = player->doMove(nullptr, 0);
+    
+    player->gameBoard->setBoard(boardData);
+
+    
+    Move *move = player->doMove(nullptr, -1);
 
     if (move != nullptr && move->x == 1 && move->y == 1) {
         std::cout << "Correct move: (1, 1)" << std::endl;;
