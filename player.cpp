@@ -374,7 +374,7 @@ if(mX >= 0 && mY >= 0)
     {
         return nullptr;
     }
-    else if
+    else
     {
         this->gameBoard->doMove(temp, this->ourSide);
         return temp;
