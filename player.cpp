@@ -63,7 +63,7 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     {
         msLeft = 999999999;
     }
-        if(diffT >= msLeft)
+    if(diffT >= msLeft)
     {
         return nullptr;
     }
@@ -323,7 +323,7 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
     
     // Initialize score array with heuristic values for each spot
     int scores[8][8]  = {
-<<<<<<< HEAD
+
         {9999999, -20, 20, 20, 20, 20, -20, 9999999},
         {-20, 0, 0, 0, 0, 0, 0, -20},
         {20, 0, 0, 0, 0, 0, 0, 20},
@@ -332,78 +332,57 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
         {20, 0, 0, 0, 0, 0, 0, 20},
         {-20, 0, 0, 0, 0, 0, 0, -20},
         {9999999, -20, 20, 20, 20, 20, -20, 9999999}};
-=======
-        {9999999, -50, 100, 100, 100, 100, -50, 9999999},
-        {-50, -9999999, 0, 0, 0, 0, -9999999, -50},
-        {100, 0, 0, 0, 0, 0, 0, 100},
-        {100, 0, 0, 0, 0, 0, 0, 100},
-        {100, 0, 0, 0, 0, 0, 0, 100},
-        {100, 0, 0, 0, 0, 0, 0, 100},
-        {-50, -9999999, 0, 0, 0, 0, -9999999, -50},
-        {9999999, -50, 100, 100, 100, 100, -50, 9999999}};
->>>>>>> 10afeb37c7e2f2770d6e076e610271565d47fe19
-    
-    // Update score array based on current state of game
-    for(int i = 0; i<8; i++)
+
+
+// Update score array based on current state of game
+for(int i = 0; i<8; i++)
+{
+    for(int j = 0; j<8; j++)
     {
-        for(int j = 0; j<8; j++)
+        Move *temp = new Move(i, j);
+        if(this->gameBoard->checkMove(temp, this->ourSide))
         {
-            Move *temp = new Move(i, j);
-            if(this->gameBoard->checkMove(temp, this->ourSide))
+            tempbd->doMove(temp, this->ourSide);
+            scores[i][j] += this->dfs(tempbd, this->opponentSide, 2, this->ourSide);
+            if(scores[i][j] == 0)
             {
-                tempbd->doMove(temp, this->ourSide);
-                scores[i][j] += this->dfs(tempbd, this->opponentSide, 2, this->ourSide);
-                if(scores[i][j] == 0)
-                {
-                    scores[i][j] = -1;
-                }
-                if(scores[i][j] > curMaxScore && scores[i][j] != 0)
-                {
-                    curMaxScore = scores[i][j];
-                    mX = i;
-                    mY = j;
-                }
+                scores[i][j] = -1;
             }
-            else
+            if(scores[i][j] > curMaxScore && scores[i][j] != 0)
             {
-                scores[i][j] = 0;
+                curMaxScore = scores[i][j];
+                mX = i;
+                mY = j;
             }
-            delete temp;
-            
-        }
-    }
-    
-    // Play the best move based on score array
-    if(mX >= 0 && mY >= 0)
-    {
-        Move *temp = new Move(mX, mY);
-        time(&lastT);
-<<<<<<< HEAD
-        int diffT=difftime(lastT, startT);
-        if(diffT >= msLeft)
-        {
-            return nullptr;
         }
         else
         {
-            this->gameBoard->doMove(temp, this->ourSide);
-            return temp;
+            scores[i][j] = 0;
         }
-=======
-		int diffT=difftime(lastT, startT);
-		if(diffT >= msLeft)
-		{
-			return nullptr;
-		}
-		else if
-		{
-			this->gameBoard->doMove(temp, this->ourSide);
-			return temp;
-		}
->>>>>>> 10afeb37c7e2f2770d6e076e610271565d47fe19
+        delete temp;
+        
     }
-    
-    return nullptr;
+}
+
+// Play the best move based on score array
+if(mX >= 0 && mY >= 0)
+{
+    Move *temp = new Move(mX, mY);
+    time(&lastT);
+    int diffT=difftime(lastT, startT);
+    if(diffT >= msLeft)
+    {
+        return nullptr;
+    }
+    else if
+    {
+        this->gameBoard->doMove(temp, this->ourSide);
+        return temp;
+    }
+
+}
+
+return nullptr;
 }
 
 int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
@@ -440,6 +419,6 @@ int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
             }
         }
     }
-        return better;
+    return better;
     
 }
