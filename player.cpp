@@ -323,6 +323,7 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
     
     // Initialize score array with heuristic values for each spot
     int scores[8][8]  = {
+<<<<<<< HEAD
         {9999999, -20, 20, 20, 20, 20, -20, 9999999},
         {-20, 0, 0, 0, 0, 0, 0, -20},
         {20, 0, 0, 0, 0, 0, 0, 20},
@@ -331,6 +332,16 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
         {20, 0, 0, 0, 0, 0, 0, 20},
         {-20, 0, 0, 0, 0, 0, 0, -20},
         {9999999, -20, 20, 20, 20, 20, -20, 9999999}};
+=======
+        {9999999, -50, 100, 100, 100, 100, -50, 9999999},
+        {-50, -9999999, 0, 0, 0, 0, -9999999, -50},
+        {100, 0, 0, 0, 0, 0, 0, 100},
+        {100, 0, 0, 0, 0, 0, 0, 100},
+        {100, 0, 0, 0, 0, 0, 0, 100},
+        {100, 0, 0, 0, 0, 0, 0, 100},
+        {-50, -9999999, 0, 0, 0, 0, -9999999, -50},
+        {9999999, -50, 100, 100, 100, 100, -50, 9999999}};
+>>>>>>> 10afeb37c7e2f2770d6e076e610271565d47fe19
     
     // Update score array based on current state of game
     for(int i = 0; i<8; i++)
@@ -367,6 +378,7 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
     {
         Move *temp = new Move(mX, mY);
         time(&lastT);
+<<<<<<< HEAD
         int diffT=difftime(lastT, startT);
         if(diffT >= msLeft)
         {
@@ -377,6 +389,18 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
             this->gameBoard->doMove(temp, this->ourSide);
             return temp;
         }
+=======
+		int diffT=difftime(lastT, startT);
+		if(diffT >= msLeft)
+		{
+			return nullptr;
+		}
+		else if
+		{
+			this->gameBoard->doMove(temp, this->ourSide);
+			return temp;
+		}
+>>>>>>> 10afeb37c7e2f2770d6e076e610271565d47fe19
     }
     
     return nullptr;
