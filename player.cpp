@@ -1,3 +1,4 @@
+
 #include "player.hpp"
 #include<iostream>
 
@@ -25,7 +26,7 @@ Player::Player(Side side) {
 
 /***
  * Destructor for the player.
- */ 
+ */
 Player::~Player() {
 }
 
@@ -62,14 +63,19 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     {
         msLeft = 999999999;
     }
-    std::cerr<<"HEREE"<<std::endl;
-    if(diffT >= msLeft)
+        if(diffT >= msLeft)
     {
         return nullptr;
     }
-
-    return doMinimaxMove(opponentsMove, msLeft);
-    //return doHeurMove(opponentsMove, time(&lastT));
+    
+    if(this->testingMinimax == true)
+    {
+        return doMinimaxMove(opponentsMove, msLeft);
+    }
+    else
+    {
+        return doHeurMove(opponentsMove, time(&lastT));
+    }
     
 }
 
@@ -88,33 +94,33 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
  * return nullptr.
  */
 Move *Player::doRandomMove(Move *opponentsMove, int msLeft) {
-	// Start timer
+    // Start timer
     time_t startT;
     time_t lastT;
     time(&startT);
     
-	// Check for legal moves
+    // Check for legal moves
     for(int i = 0; i < 8; i++)
     {
         for(int j = 0; j < 8; j++)
         {
             Move *temp = new Move(i, j);
             if(this->gameBoard->checkMove(temp, this->ourSide))
-               {
-                   //Current time, which is higher than startT
-                   time(&lastT);
-                   int diffT=difftime(lastT, startT);
-                   this->gameBoard->doMove(temp, this->ourSide);
-                   if(diffT >= msLeft)
-                   {
-                       return nullptr;
-                   }
-                   else
-                   {
-                        return temp;
-                   }
-               }
-
+            {
+                //Current time, which is higher than startT
+                time(&lastT);
+                int diffT=difftime(lastT, startT);
+                this->gameBoard->doMove(temp, this->ourSide);
+                if(diffT >= msLeft)
+                {
+                    return nullptr;
+                }
+                else
+                {
+                    return temp;
+                }
+            }
+            
         }
     }
     return nullptr;
@@ -124,7 +130,7 @@ Move *Player::doRandomMove(Move *opponentsMove, int msLeft) {
 /***
  * Compute the next move given the opponent's last move using heuristics.
  * Your AI is expected to keep track of the board on its own.
- * If this is the first move, or if the opponent passed on the last 
+ * If this is the first move, or if the opponent passed on the last
  * move, then opponentsMove will be nullptr.
  *
  * msLeft represents the time your AI has left for the total game, in
@@ -135,7 +141,7 @@ Move *Player::doRandomMove(Move *opponentsMove, int msLeft) {
  * return nullptr.
  */
 Move *Player::doHeurMove(Move *opponentsMove, int msLeft) {
-	// Start timer
+    // Start timer
     time_t startT;
     time_t lastT;
     time(&startT);
@@ -150,7 +156,7 @@ Move *Player::doHeurMove(Move *opponentsMove, int msLeft) {
             int diffT=difftime(lastT, startT);
             if(diffT >= msLeft)
             {
-				return nullptr;
+                return nullptr;
             }
             else if(this->gameBoard->checkMove(temp, this->ourSide))
             {
@@ -171,7 +177,7 @@ Move *Player::doHeurMove(Move *opponentsMove, int msLeft) {
             int diffT=difftime(lastT, startT);
             if(diffT >= msLeft)
             {
-				return nullptr;
+                return nullptr;
             }
             else if(this->gameBoard->checkMove(temp, this->ourSide))
             {
@@ -191,7 +197,7 @@ Move *Player::doHeurMove(Move *opponentsMove, int msLeft) {
             int diffT=difftime(lastT, startT);
             if(diffT >= msLeft)
             {
-				return nullptr;
+                return nullptr;
             }
             else if(this->gameBoard->checkMove(temp, this->ourSide))
             {
@@ -211,11 +217,11 @@ Move *Player::doHeurMove(Move *opponentsMove, int msLeft) {
             {
                 Move *temp = new Move(i, j);
                 time(&lastT);
-				int diffT=difftime(lastT, startT);
-				if(diffT >= msLeft)
-				{
-					return nullptr;
-				}
+                int diffT=difftime(lastT, startT);
+                if(diffT >= msLeft)
+                {
+                    return nullptr;
+                }
                 else if(this->gameBoard->checkMove(temp, this->ourSide))
                 {
                     this->gameBoard->doMove(temp, this->ourSide);
@@ -236,7 +242,7 @@ Move *Player::doHeurMove(Move *opponentsMove, int msLeft) {
             int diffT=difftime(lastT, startT);
             if(diffT >= msLeft)
             {
-				return nullptr;
+                return nullptr;
             }
             else if(this->gameBoard->checkMove(temp, this->ourSide))
             {
@@ -257,7 +263,7 @@ Move *Player::doHeurMove(Move *opponentsMove, int msLeft) {
             int diffT=difftime(lastT, startT);
             if(diffT >= msLeft)
             {
-				return nullptr;
+                return nullptr;
             }
             else if(this->gameBoard->checkMove(temp, this->ourSide))
             {
@@ -278,7 +284,7 @@ Move *Player::doHeurMove(Move *opponentsMove, int msLeft) {
             int diffT=difftime(lastT, startT);
             if(diffT >= msLeft)
             {
-				return nullptr;
+                return nullptr;
             }
             else if(this->gameBoard->checkMove(temp, this->ourSide))
             {
@@ -295,7 +301,7 @@ Move *Player::doHeurMove(Move *opponentsMove, int msLeft) {
 /***
  * Compute the next move given the opponent's last move using minimax
  * algorithm. Your AI is expected to keep track of the board on its own.
- * If this is the first move, or if the opponent passed on the last 
+ * If this is the first move, or if the opponent passed on the last
  * move, then opponentsMove will be nullptr.
  *
  * msLeft represents the time your AI has left for the total game, in
@@ -306,7 +312,7 @@ Move *Player::doHeurMove(Move *opponentsMove, int msLeft) {
  * return nullptr.
  */
 Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
-	// Start timer
+    // Start timer
     time_t startT;
     time_t lastT;
     time(&startT);
@@ -317,14 +323,14 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
     
     // Initialize score array with heuristic values for each spot
     int scores[8][8]  = {
-        {9999999, -50, 100, 100, 100, 100, -50, 9999999},
-        {-50, -9999999, 0, 0, 0, 0, -9999999, -50},
-        {100, 0, 0, 0, 0, 0, 0, 100},
-        {100, 0, 0, 0, 0, 0, 0, 100},
-        {100, 0, 0, 0, 0, 0, 0, 100},
-        {100, 0, 0, 0, 0, 0, 0, 100},
-        {-50, -9999999, 0, 0, 0, 0, -9999999, -50},
-        {9999999, -50, 100, 100, 100, 100, -50, 9999999}};
+        {9999999, -20, 20, 20, 20, 20, -20, 9999999},
+        {-20, 0, 0, 0, 0, 0, 0, -20},
+        {20, 0, 0, 0, 0, 0, 0, 20},
+        {20, 0, 0, 0, 0, 0, 0, 20},
+        {20, 0, 0, 0, 0, 0, 0, 20},
+        {20, 0, 0, 0, 0, 0, 0, 20},
+        {-20, 0, 0, 0, 0, 0, 0, -20},
+        {9999999, -20, 20, 20, 20, 20, -20, 9999999}};
     
     // Update score array based on current state of game
     for(int i = 0; i<8; i++)
@@ -335,15 +341,13 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
             if(this->gameBoard->checkMove(temp, this->ourSide))
             {
                 tempbd->doMove(temp, this->ourSide);
-                std::cerr << i <<" | "<<j<< std::endl;
-                scores[i][j] += this->dfs(tempbd, this->opponentSide, 3, this->ourSide);
+                scores[i][j] += this->dfs(tempbd, this->opponentSide, 2, this->ourSide);
                 if(scores[i][j] == 0)
                 {
                     scores[i][j] = -1;
                 }
                 if(scores[i][j] > curMaxScore && scores[i][j] != 0)
                 {
-                    std::cerr <<"Best Cur "<< i <<" | "<<j<< std::endl;
                     curMaxScore = scores[i][j];
                     mX = i;
                     mY = j;
@@ -357,54 +361,37 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
             
         }
     }
-    std::cerr <<"IM HERE"<<std::endl;
-    for(int i = 0; i<8; i++)
-    {
-        for(int j = 0; j<8; j++)
-        {
-            std::cerr << scores[i][j] <<" , ";
-        }
-        std::cerr<<std::endl;
-    }
     
     // Play the best move based on score array
     if(mX >= 0 && mY >= 0)
     {
         Move *temp = new Move(mX, mY);
         time(&lastT);
-		int diffT=difftime(lastT, startT);
-		if(diffT >= msLeft)
-		{
-			return nullptr;
-		}
-		else if
-		{
-			this->gameBoard->doMove(temp, this->ourSide);
-			return temp;
-		}
+        int diffT=difftime(lastT, startT);
+        if(diffT >= msLeft)
+        {
+            return nullptr;
+        }
+        else
+        {
+            this->gameBoard->doMove(temp, this->ourSide);
+            return temp;
+        }
     }
-        
+    
     return nullptr;
 }
 
 int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
 {
-    if(depth <= 0 || (tpBoard->hasMoves(curside) && tpBoard->hasMoves(otherside)))
+    if(depth <= 0 || (tpBoard->hasMoves(curside) ==0 && tpBoard->hasMoves(otherside) == 0 ))
     {
-        return  tpBoard->count(this->opponentSide)-tpBoard->count(this->ourSide);
+        return  1*tpBoard->count(curside)-tpBoard->count(otherside);
     }
     depth--;
+    
     int tempIntDFS = 0 ;
     int better = 0;
-    //if(tpBoard->hasMoves(curside) && tpBoard->)
-    if(this->ourSide == curside)
-    {
-        better = 999999;
-    }
-    else
-    {
-        better = -999999;
-    }
     
     for(int i = 0; i<8; i++)
     {
@@ -413,26 +400,22 @@ int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
             Move *temp = new Move(i, j);
             if(tpBoard->checkMove(temp, curside))
             {
-                //std::cerr << i <<" | "<<j<< std::endl;
                 Board *tpBoardTwo = tpBoard->copy();
                 tpBoardTwo->doMove(temp, curside);
                 tempIntDFS = this->dfs(tpBoardTwo, otherside, depth, curside);
-                tempIntDFS*=-1;
                 if(this->ourSide == curside)
                 {
-                    tempIntDFS*=-1;
-                    better = min(better, tempIntDFS);
+                    better = max(better, tempIntDFS);
                 }
                 else
                 {
-                    better = max(better, tempIntDFS);
+                    tempIntDFS*=-1;
+                    better = min(better, tempIntDFS);
                 }
                 
             }
         }
     }
-    return better;
+        return better;
     
 }
-
-
