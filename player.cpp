@@ -335,13 +335,14 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
 
 
 // Update score array based on current state of game
-for(int i = 0; i<8; i++)
+for(int i = 0; i < 8; i++)
 {
-    for(int j = 0; j<8; j++)
+    for(int j = 0; j < 8; j++)
     {
         Move *temp = new Move(i, j);
         if(this->gameBoard->checkMove(temp, this->ourSide))
         {
+			// Calls dft to find the best move 
             tempbd->doMove(temp, this->ourSide);
             scores[i][j] += this->dfs(tempbd, this->opponentSide, 2, this->ourSide);
             if(scores[i][j] == 0)
@@ -387,18 +388,19 @@ return nullptr;
 
 int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
 {
+	// Base case; returns the difference in number of pieces on board
     if(depth <= 0 || (tpBoard->hasMoves(curside) ==0 && tpBoard->hasMoves(otherside) == 0 ))
     {
-        return  1*tpBoard->count(curside)-tpBoard->count(otherside);
+        return tpBoard->count(curside)-tpBoard->count(otherside);
     }
     depth--;
     
     int tempIntDFS = 0 ;
     int better = 0;
     
-    for(int i = 0; i<8; i++)
+    for(int i = 0; i < 8; i++)
     {
-        for(int j = 0; j<8; j++)
+        for(int j = 0; j < 8; j++)
         {
             Move *temp = new Move(i, j);
             if(tpBoard->checkMove(temp, curside))
