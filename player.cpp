@@ -439,7 +439,7 @@ int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
             if(tpBoard->checkMove(temp, curside))
             {
                 Board *tpBoardTwo = tpBoard->copy();
-                tpBoardTwo->doMinimaxMove(temp, curside);  //CHANGED THIS TO DO MINMAX MOVE
+                tpBoardTwo->doMove(temp, curside);
                 tempIntDFS = this->dfs(tpBoardTwo, otherside, depth, curside);
                 std::cerr<<"better "<<better<<std::endl;
                 if(this->ourSide == curside)
@@ -458,6 +458,7 @@ int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
                 std::cerr<<"better after "<<better<<std::endl;
 
             }
+            delete temp;
         }
     }
     return better;
