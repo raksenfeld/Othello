@@ -449,9 +449,9 @@ int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
                 }
                 else
                 {
-                    tempIntDFS *= -1;
+                    // tempIntDFS *= -1;
                     std::cerr<<"better min"<<"better"<<better<<", tempint "<<tempIntDFS<<std::endl;
-                    better = max(better, tempIntDFS);
+                    better = max(better, -1 * tempIntDFS);
                     //better *= -1;
                 }
                 
