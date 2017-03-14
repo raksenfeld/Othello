@@ -1,4 +1,3 @@
-
 #include "player.hpp"
 #include<iostream>
 
@@ -322,18 +321,17 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
     Board *tempbd = this->gameBoard->copy();
     
     // Initialize score array with heuristic values for each spot
-  /*  int scores[8][8]  = {
-
-        {9999999, -20, 20, 20, 20, 20, -20, 9999999},
-        {-20, 0, 0, 0, 0, 0, 0, -20},
-        {20, 0, 0, 0, 0, 0, 0, 20},
-        {20, 0, 0, 0, 0, 0, 0, 20},
-        {20, 0, 0, 0, 0, 0, 0, 20},
-        {20, 0, 0, 0, 0, 0, 0, 20},
-        {-20, 0, 0, 0, 0, 0, 0, -20},
-        {9999999, -20, 20, 20, 20, 20, -20, 9999999}};
-   */
-
+    /*  int scores[8][8]  = {
+     {9999999, -20, 20, 20, 20, 20, -20, 9999999},
+     {-20, 0, 0, 0, 0, 0, 0, -20},
+     {20, 0, 0, 0, 0, 0, 0, 20},
+     {20, 0, 0, 0, 0, 0, 0, 20},
+     {20, 0, 0, 0, 0, 0, 0, 20},
+     {20, 0, 0, 0, 0, 0, 0, 20},
+     {-20, 0, 0, 0, 0, 0, 0, -20},
+     {9999999, -20, 20, 20, 20, 20, -20, 9999999}};
+     */
+    
     int scores[8][8]  = {
         
         {0, 0, 0, 0, 0, 0, 0, 0},
@@ -345,85 +343,85 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
         {0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0}};
     
-	// Update score array based on current state of game
-	for(int i = 0; i < 8; i++)
-	{
-		for(int j = 0; j < 8; j++)
-		{
-			Move *temp = new Move(i, j);
-			if(this->gameBoard->checkMove(temp, this->ourSide))
-			{
-				// Calls dft to find the best move 
-				tempbd->doMove(temp, this->ourSide);
-				std::cerr<<"currently looking ahead "<<i<<" , "<<j<<std::endl;
-				scores[i][j] += this->dfs(tempbd, this->opponentSide, 2, this->ourSide);
-				
-				/*if(scores[i][j] == 0)  // WHY ARE WE DOING THIS??
-				{
-					scores[i][j] = -1;
-				}*/
-				
-				// Sets the current move to best if better than old best
-				if(scores[i][j] > curMaxScore)
-				{
-					curMaxScore = scores[i][j];
-					mX = i;
-					mY = j;
-				}
-			}
-			/* else    // Current spot is not a valid move
-			{
-				scores[i][j] = -8888;
-			} */
-			delete temp;
-		}   
-	}
+    // Update score array based on current state of game
+    for(int i = 0; i < 8; i++)
+    {
+        for(int j = 0; j < 8; j++)
+        {
+            Move *temp = new Move(i, j);
+            if(this->gameBoard->checkMove(temp, this->ourSide))
+            {
+                // Calls dft to find the best move
+                tempbd->doMove(temp, this->ourSide);
+                std::cerr<<"currently looking ahead "<<i<<" , "<<j<<std::endl;
+                scores[i][j] += this->dfs(tempbd, this->opponentSide, 2, this->ourSide);
+                
+                /*if(scores[i][j] == 0)  // WHY ARE WE DOING THIS??
+                 {
+                 scores[i][j] = -1;
+                 }*/
+                
+                // Sets the current move to best if better than old best
+                if(scores[i][j] > curMaxScore)
+                {
+                    curMaxScore = scores[i][j];
+                    mX = i;
+                    mY = j;
+                }
+            }
+            /* else    // Current spot is not a valid move
+             {
+             scores[i][j] = -8888;
+             } */
+            delete temp;
+        }
+    }
     
     // Prints out score array for testing
-	for(int i = 0; i<8; i++)
-	{
-		for(int j = 0; j<8; j++)
-		{
-			std::cerr<<scores[i][j]<<" ";
-		}
-		std::cerr<<std::endl;
-	}
-
-	// Play the best move based on score array
-	if(mX >= 0 && mY >= 0)
-	{
-		Move *temp = new Move(mX, mY);
-		// Checks if there is time left
-		time(&lastT);
-		int diffT=difftime(lastT, startT);
-		if(diffT >= msLeft)
-		{
-			return nullptr;
-		}
-		else
-		{
-			std::cerr<<"Picked move "<<mX<<" , "<<mY<<std::endl;
-
-			this->gameBoard->doMove(temp, this->ourSide);
-			return temp;
-		}
-	}
-
+    for(int i = 0; i<8; i++)
+    {
+        for(int j = 0; j<8; j++)
+        {
+            std::cerr<<scores[i][j]<<" ";
+        }
+        std::cerr<<std::endl;
+    }
+    
+    // Play the best move based on score array
+    if(mX >= 0 && mY >= 0)
+    {
+        Move *temp = new Move(mX, mY);
+        // Checks if there is time left
+        time(&lastT);
+        int diffT=difftime(lastT, startT);
+        if(diffT >= msLeft)
+        {
+            return nullptr;
+        }
+        else
+        {
+            std::cerr<<"Picked move "<<mX<<" , "<<mY<<std::endl;
+            
+            this->gameBoard->doMove(temp, this->ourSide);
+            return temp;
+        }
+    }
+    
     return nullptr;
 }
 
 /**
- * 
+ *
  */
 int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
 {
-	// Base case; returns the difference in number of pieces on board
+    // Base case; returns the difference in number of pieces on board
     if(depth <= 0 || !(tpBoard->hasMoves(curside) || tpBoard->hasMoves(otherside)))
     {
         
         std::cerr<<"has move current side"<<tpBoard->hasMoves(curside)<<std::endl;
         std::cerr<<"has move other side"<<tpBoard->hasMoves(otherside)<<std::endl;
-
+        
         return tpBoard->count(this->ourSide)-tpBoard->count(this->opponentSide);
     }
     depth--;
@@ -439,7 +437,7 @@ int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
             if(tpBoard->checkMove(temp, curside))
             {
                 Board *tpBoardTwo = tpBoard->copy();
-                tpBoardTwo->doMove(temp, curside);  //CHANGED THIS TO DO MINMAX MOVE
+                tpBoardTwo->doMinimaxMove(temp, curside);  //CHANGED THIS TO DO MINMAX MOVE
                 tempIntDFS = this->dfs(tpBoardTwo, otherside, depth, curside);
                 std::cerr<<"better "<<better<<std::endl;
                 if(this->ourSide == curside)
@@ -456,7 +454,7 @@ int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
                 }
                 
                 std::cerr<<"better after "<<better<<std::endl;
-
+                
             }
         }
     }
