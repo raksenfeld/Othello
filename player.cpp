@@ -28,7 +28,7 @@ Player::Player(Side side) {
  */
 Player::~Player() {
 	
-	delete board;
+	delete gameBoard;
 }
 
 /***
@@ -344,7 +344,7 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
                 Board *tempbd = this->gameBoard->copy();
 
 				tempbd->doMove(temp, this->ourSide);
-				scores[i][j] += this->dfs(tempbd, this->opponentSide, 5, this->ourSide);
+				scores[i][j] += this->dfs(tempbd, this->opponentSide, 4, this->ourSide);
 				
 				// Sets the current move to best if better than old best
 				if(scores[i][j] > curMaxScore)
