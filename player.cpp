@@ -358,10 +358,10 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
 				std::cerr<<"currently looking ahead "<<i<<" , "<<j<<std::endl;
 				scores[i][j] += this->dfs(tempbd, this->opponentSide, 2, this->ourSide);
 				
-				if(scores[i][j] == 0)  // WHY ARE WE DOING THIS??
+				/*if(scores[i][j] == 0)  // WHY ARE WE DOING THIS??
 				{
 					scores[i][j] = -1;
-				}
+				}*/
 				
 				// Sets the current move to best if better than old best
 				if(scores[i][j] > curMaxScore)
