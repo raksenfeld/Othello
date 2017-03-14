@@ -318,7 +318,6 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
     int mX = -1;
     int mY = -1;
     int curMaxScore = -99999999;
-    Board *tempbd = this->gameBoard->copy();
     
     // Initialize score array with heuristic values for each spot
     /*  int scores[8][8]  = {
@@ -342,41 +341,52 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
         {0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0}};
-    
-    // Update score array based on current state of game
-    for(int i = 0; i < 8; i++)
-    {
-        for(int j = 0; j < 8; j++)
-        {
-            Move *temp = new Move(i, j);
-            if(this->gameBoard->checkMove(temp, this->ourSide))
-            {
-                // Calls dft to find the best move
-                tempbd->doMove(temp, this->ourSide);
-                std::cerr<<"currently looking ahead "<<i<<" , "<<j<<std::endl;
-                scores[i][j] += this->dfs(tempbd, this->opponentSide, 2, this->ourSide);
+
+	// Update score array based on current state of game
+	for(int i = 0; i < 8; i++)
+	{
+		for(int j = 0; j < 8; j++)
+		{
+			Move *temp = new Move(i, j);
+			if(this->gameBoard->checkMove(temp, this->ourSide))
+			{
+				// Calls dft to find the best move
+                Board *tempbd = this->gameBoard->copy();
+
+				tempbd->doMove(temp, this->ourSide);
+				std::cerr<<"currently looking ahead "<<i<<" , "<<j<<std::endl;
+				scores[i][j] += this->dfs(tempbd, this->opponentSide, 2, this->ourSide);
+				
+				/*if(scores[i][j] == 0)  // WHY ARE WE DOING THIS??
+				{
+					scores[i][j] = -1;
+				}*/
+				
+				// Sets the current move to best if better than old best
+				if(scores[i][j] > curMaxScore)
+				{
+					curMaxScore = scores[i][j];
+					mX = i;
+					mY = j;
+				}
                 
-                /*if(scores[i][j] == 0)  // WHY ARE WE DOING THIS??
-                 {
-                 scores[i][j] = -1;
-                 }*/
-                
-                // Sets the current move to best if better than old best
-                if(scores[i][j] > curMaxScore)
-                {
-                    curMaxScore = scores[i][j];
-                    mX = i;
-                    mY = j;
-                }
-            }
-            /* else    // Current spot is not a valid move
-             {
-             scores[i][j] = -8888;
-             } */
-            delete temp;
-        }
-    }
+			}
+			/* else    // Current spot is not a valid move
+			{
+				scores[i][j] = -8888;
+			} */
+			delete temp;
+		}   
+	}
     
+    std::cerr<<"----------------"<<std::endl;
+    std::cerr<<"----------------"<<std::endl;
+    
+    std::cerr<<"----------------"<<std::endl;
+    
+    std::cerr<<"----------------"<<std::endl;
+    
+
     // Prints out score array for testing
     for(int i = 0; i<8; i++)
     {
@@ -387,6 +397,15 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
         std::cerr<<std::endl;
     }
     
+    std::cerr<<"----------------"<<std::endl;
+    
+    std::cerr<<"----------------"<<std::endl;
+    
+    std::cerr<<"----------------"<<std::endl;
+    
+    std::cerr<<"----------------"<<std::endl;
+    
+
     // Play the best move based on score array
     if(mX >= 0 && mY >= 0)
     {
@@ -419,6 +438,16 @@ int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
     if(depth <= 0 || !(tpBoard->hasMoves(curside) || tpBoard->hasMoves(otherside)))
     {
         
+        // Prints out score array for testing
+        for(int i = 0; i<8; i++)
+        {
+            for(int j = 0; j<8; j++)
+            {
+                std::cerr<<tpBoard->occupied(i, j)<<" ";
+            }
+            std::cerr<<std::endl;
+        }
+        
         std::cerr<<"has move current side"<<tpBoard->hasMoves(curside)<<std::endl;
         std::cerr<<"has move other side"<<tpBoard->hasMoves(otherside)<<std::endl;
         
@@ -437,7 +466,7 @@ int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
             if(tpBoard->checkMove(temp, curside))
             {
                 Board *tpBoardTwo = tpBoard->copy();
-                tpBoardTwo->doMinimaxMove(temp, curside);  //CHANGED THIS TO DO MINMAX MOVE
+                tpBoardTwo->doMove(temp, curside);  //CHANGED THIS TO DO MINMAX MOVE
                 tempIntDFS = this->dfs(tpBoardTwo, otherside, depth, curside);
                 std::cerr<<"better "<<better<<std::endl;
                 if(this->ourSide == curside)
