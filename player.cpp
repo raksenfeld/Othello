@@ -320,28 +320,17 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
     int curMaxScore = -99999999;
     
     // Initialize score array with heuristic values for each spot
-    /*  int scores[8][8]  = {
+      int scores[8][8]  = {
      {9999999, -20, 20, 20, 20, 20, -20, 9999999},
-     {-20, 0, 0, 0, 0, 0, 0, -20},
+     {-20, -30, 0, 0, 0, 0, -30, -20},
      {20, 0, 0, 0, 0, 0, 0, 20},
      {20, 0, 0, 0, 0, 0, 0, 20},
      {20, 0, 0, 0, 0, 0, 0, 20},
      {20, 0, 0, 0, 0, 0, 0, 20},
-     {-20, 0, 0, 0, 0, 0, 0, -20},
+     {-20, -30, 0, 0, 0, 0, -30, -20},
      {9999999, -20, 20, 20, 20, 20, -20, 9999999}};
-     */
+     
     
-    int scores[8][8]  = {
-        
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0}};
-
 	// Update score array based on current state of game
 	for(int i = 0; i < 8; i++)
 	{
@@ -355,12 +344,8 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
 
 				tempbd->doMove(temp, this->ourSide);
 				std::cerr<<"currently looking ahead "<<i<<" , "<<j<<std::endl;
-				scores[i][j] += this->dfs(tempbd, this->opponentSide, 2, this->ourSide);
-				
-				/*if(scores[i][j] == 0)  // WHY ARE WE DOING THIS??
-				{
-					scores[i][j] = -1;
-				}*/
+				scores[i][j] += this->dfs(tempbd, this->opponentSide, 5, this->ourSide);
+    
 				
 				// Sets the current move to best if better than old best
 				if(scores[i][j] > curMaxScore)
@@ -371,39 +356,11 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
 				}
                 
 			}
-			/* else    // Current spot is not a valid move
-			{
-				scores[i][j] = -8888;
-			} */
+
 			delete temp;
 		}   
 	}
-    
-    std::cerr<<"----------------"<<std::endl;
-    std::cerr<<"----------------"<<std::endl;
-    
-    std::cerr<<"----------------"<<std::endl;
-    
-    std::cerr<<"----------------"<<std::endl;
-    
 
-    // Prints out score array for testing
-    for(int i = 0; i<8; i++)
-    {
-        for(int j = 0; j<8; j++)
-        {
-            std::cerr<<scores[i][j]<<" ";
-        }
-        std::cerr<<std::endl;
-    }
-    
-    std::cerr<<"----------------"<<std::endl;
-    
-    std::cerr<<"----------------"<<std::endl;
-    
-    std::cerr<<"----------------"<<std::endl;
-    
-    std::cerr<<"----------------"<<std::endl;
     
 
     // Play the best move based on score array
@@ -437,20 +394,6 @@ int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
     // Base case; returns the difference in number of pieces on board
     if(depth <= 0 || !(tpBoard->hasMoves(curside) || tpBoard->hasMoves(otherside)))
     {
-        
-        // Prints out score array for testing
-        for(int i = 0; i<8; i++)
-        {
-            for(int j = 0; j<8; j++)
-            {
-                std::cerr<<tpBoard->occupied(i, j)<<" ";
-            }
-            std::cerr<<std::endl;
-        }
-        
-        std::cerr<<"has move current side"<<tpBoard->hasMoves(curside)<<std::endl;
-        std::cerr<<"has move other side"<<tpBoard->hasMoves(otherside)<<std::endl;
-        
         return tpBoard->count(this->ourSide)-tpBoard->count(this->opponentSide);
     }
     depth--;
@@ -468,21 +411,21 @@ int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
                 Board *tpBoardTwo = tpBoard->copy();
                 tpBoardTwo->doMove(temp, curside);
                 tempIntDFS = this->dfs(tpBoardTwo, otherside, depth, curside);
-                std::cerr<<"better "<<better<<std::endl;
+                //std::cerr<<"better "<<better<<std::endl;
                 if(this->ourSide == curside)
                 {
-                    std::cerr<<"better max"<<"better"<<better<<", tempint "<<tempIntDFS<<std::endl;
+                    //std::cerr<<"better max"<<"better"<<better<<", tempint "<<tempIntDFS<<std::endl;
                     better = max(better, tempIntDFS);
                 }
                 else
                 {
                     // tempIntDFS *= -1;
-                    std::cerr<<"better min"<<"better"<<better<<", tempint "<<tempIntDFS<<std::endl;
+                    //std::cerr<<"better min"<<"better"<<better<<", tempint "<<tempIntDFS<<std::endl;
                     better = max(better, -1 * tempIntDFS);
                     //better *= -1;
                 }
                 
-                std::cerr<<"better after "<<better<<std::endl;
+                //std::cerr<<"better after "<<better<<std::endl;
                 
             }
             delete temp;
