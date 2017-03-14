@@ -322,7 +322,7 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
     Board *tempbd = this->gameBoard->copy();
     
     // Initialize score array with heuristic values for each spot
-    int scores[8][8]  = {
+  /*  int scores[8][8]  = {
 
         {9999999, -20, 20, 20, 20, 20, -20, 9999999},
         {-20, 0, 0, 0, 0, 0, 0, -20},
@@ -332,8 +332,19 @@ Move *Player::doMinimaxMove(Move *opponentsMove, int msLeft) {
         {20, 0, 0, 0, 0, 0, 0, 20},
         {-20, 0, 0, 0, 0, 0, 0, -20},
         {9999999, -20, 20, 20, 20, 20, -20, 9999999}};
+   */
 
-
+    int scores[8][8]  = {
+        
+        {0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0}};
+    
 // Update score array based on current state of game
 for(int i = 0; i<8; i++)
 {
@@ -343,12 +354,13 @@ for(int i = 0; i<8; i++)
         if(this->gameBoard->checkMove(temp, this->ourSide))
         {
             tempbd->doMove(temp, this->ourSide);
+            std::cerr<<"currently looking ahead "<<i<<" , "<<j<<std::endl;
             scores[i][j] += this->dfs(tempbd, this->opponentSide, 2, this->ourSide);
             if(scores[i][j] == 0)
             {
                 scores[i][j] = -1;
             }
-            if(scores[i][j] > curMaxScore && scores[i][j] != 0)
+            if(scores[i][j] > curMaxScore)
             {
                 curMaxScore = scores[i][j];
                 mX = i;
@@ -357,12 +369,25 @@ for(int i = 0; i<8; i++)
         }
         else
         {
-            scores[i][j] = 0;
+            scores[i][j] = -8888;
         }
         delete temp;
         
     }
+
+    
+    
 }
+    
+for(int i = 0; i<8; i++)
+{
+    for(int j = 0; j<8; j++)
+    {
+        std::cerr<<scores[i][j]<<" ";
+    }
+    std::cerr<<std::endl;
+}
+
 
 // Play the best move based on score array
 if(mX >= 0 && mY >= 0)
@@ -376,25 +401,32 @@ if(mX >= 0 && mY >= 0)
     }
     else
     {
+        std::cerr<<"Picked move "<<mX<<" , "<<mY<<std::endl;
+
         this->gameBoard->doMove(temp, this->ourSide);
         return temp;
     }
 
 }
 
+
 return nullptr;
 }
 
 int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
 {
-    if(depth <= 0 || (tpBoard->hasMoves(curside) ==0 && tpBoard->hasMoves(otherside) == 0 ))
+    if(depth <= 0 || !(tpBoard->hasMoves(curside) || tpBoard->hasMoves(otherside)))
     {
-        return  1*tpBoard->count(curside)-tpBoard->count(otherside);
+        
+        std::cerr<<"has move current side"<<tpBoard->hasMoves(curside)<<std::endl;
+        std::cerr<<"has move other side"<<tpBoard->hasMoves(otherside)<<std::endl;
+
+        return  1*tpBoard->count(this->ourSide)-tpBoard->count(this->opponentSide);
     }
     depth--;
     
     int tempIntDFS = 0 ;
-    int better = 0;
+    int better = -999999;
     
     for(int i = 0; i<8; i++)
     {
@@ -406,16 +438,22 @@ int Player::dfs(Board *tpBoard, Side curside, int depth, Side otherside)
                 Board *tpBoardTwo = tpBoard->copy();
                 tpBoardTwo->doMove(temp, curside);
                 tempIntDFS = this->dfs(tpBoardTwo, otherside, depth, curside);
+                std::cerr<<"better "<<better<<std::endl;
                 if(this->ourSide == curside)
                 {
+                    std::cerr<<"better max"<<"better"<<better<<", tempint "<<tempIntDFS<<std::endl;
                     better = max(better, tempIntDFS);
                 }
                 else
                 {
-                    tempIntDFS*=-1;
-                    better = min(better, tempIntDFS);
+                    tempIntDFS *= -1;
+                    std::cerr<<"better min"<<"better"<<better<<", tempint "<<tempIntDFS<<std::endl;
+                    better = max(better, tempIntDFS);
+                    //better *= -1;
                 }
                 
+                std::cerr<<"better after "<<better<<std::endl;
+
             }
         }
     }
